@@ -1,12 +1,8 @@
-Use the following technologies:
-JS
-CSS/SASS
-
-use JS to obtain system information and update it every second (library for this)
-use JS to display the weather
-
 add some basic hyperlinks to very nice websites that you visit frequently
 
-use json files to dynamically populate the page with links
-
 use fa-icons ?
+
+update site dynamically based on time of day
+update site dynamically based on weather - HOW?
+	- temperature
+	- type of weather

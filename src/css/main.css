@@ -1,3 +1,9 @@
+.jumbotron {
+  background-color: #292929;
+  font-family: "Hack";
+  color: white;
+}
+
 html {
   font-family: "Hack";
   background-color: #292929;
