@@ -18,14 +18,14 @@ var mediaLinks = [
 
 var productivityLinks = [
   {
-    name: "Something productive",
-    url: "https://somethingproductive.com"
+    name: "Github",
+    url: "https://github.com"
   }
 ]
 
 var newsLinks = [
   {
-    name: "Google News (fake?)",
+    name: "Google News",
     url: "https://news.google.com"
   }
 ]

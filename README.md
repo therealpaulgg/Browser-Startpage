@@ -1,5 +1,5 @@
 # Custom Browser Page
 
-It currently is a work in progress and will look something like this:
+It currently is a work in progress, but is usable.
 
-![image](https://imgur.com/WmrfJYH.png)
+![image](https://imgur.com/oBsVxMC.png)
