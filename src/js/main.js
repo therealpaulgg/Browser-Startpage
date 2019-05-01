@@ -16,6 +16,8 @@ var updateTime;
 var triggeredSunset;
 var triggeredSunrise;
 
+var oldDay;
+
 main()	
 let timerId = setInterval(time, 1000)
 
@@ -58,6 +60,8 @@ async function setWeather() {
 
 	icon = "wi wi-" + icon
 	weatherIcon.className += icon
+	sunset = weatherData.sys.sunset
+	sunrise = weatherData.sys.sunrise
 	weatherP.appendChild(weatherIcon)
 }
 
@@ -79,14 +83,11 @@ async function time() {
 
 	// update weather information if it has been 10 minutes or if it is sunset/sunrise
 
-	if (date.getTime() - updateTime > 10 * 60 * 1000) {
-		setWeather()
-	} else if ((date.getTime() / 1000 > weatherData.sys.sunset || date.getTime() / 1000 < weatherData.sys.sunrise) && !triggeredSunset) {
-		setWeather()
-	} else if ((date.getTime() / 1000 < weatherData.sys.sunset || date.getTime() / 1000 > weatherData.sys.sunrise) && !triggeredSunrise) {
-		setWeather()
-	} 
+	if (date.getTime() - updateTime > 10 * 60 * 1000) setWeather()
+	else if ((date.getTime() / 1000 > sunset || date.getTime() / 1000 < sunrise) && !triggeredSunset) setWeather()
+	else if ((date.getTime() / 1000 < sunset || date.getTime() / 1000 > sunrise) && !triggeredSunrise) setWeather()
 	
+	if (oldDay != date.getDay()) setWeather()	
 }
 
 async function getWeatherJson() {
