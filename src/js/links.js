@@ -1,11 +1,32 @@
-var links = [
+var socialLinks = [
   {
-    name : "Google",
-    url: "https://google.com"
+    name : "Twitter",
+    url: "https://twitter.com"
   },
   {
-    name : "DuckDuckGo",
-    url: "https://duckduckgo.com"
+    name : "Reddit",
+    url: "https://reddit.com"
+  }
+]
+
+var mediaLinks = [
+  {
+    name: "Plex",
+    url: "https://plex.com"
+  }
+]
+
+var productivityLinks = [
+  {
+    name: "Something productive",
+    url: "https://somethingproductive.com"
+  }
+]
+
+var newsLinks = [
+  {
+    name: "Google News (fake?)",
+    url: "https://news.google.com"
   }
 ]
 

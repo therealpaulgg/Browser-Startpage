@@ -19,15 +19,53 @@ var triggeredSunrise;
 var oldDay;
 
 main()	
+
 let timerId = setInterval(time, 1000)
 
-var divider = document.getElementById("links")
+var socialDiv = document.getElementById("social-links")
+var mediaDiv = document.getElementById("media-links")
+var productivityDiv = document.getElementById("productivity-links")
+var newsDiv = document.getElementById("news-links")
 
-links.forEach((item) => {
-	var string = `${item.name} @ ${item.url}`
-	var element = document.createElement("p")
-	element.textContent = string
-	divider.appendChild(element)
+// Each link has a category.
+// Three categories:
+// Social Media
+// Media
+// Productivity
+// News
+
+
+
+let stuff = [
+	{
+		div: socialDiv, 
+		links: socialLinks
+	}, 
+	{
+		div: mediaDiv, 
+		links: mediaLinks
+	},
+	{
+		div: productivityDiv, 
+		links: productivityLinks
+	},
+	{
+		div: newsDiv, 
+		links: newsLinks
+	} 
+]
+
+stuff.forEach((item) => {
+	item.links.forEach((link) => {
+		var string = `${link.name} @ `
+		var element = document.createElement("p")
+		var hyperlink = document.createElement("a")
+		hyperlink.href = `${link.url}`
+		hyperlink.textContent = `${link.url}`
+		element.textContent = string
+		element.appendChild(hyperlink)
+		item.div.appendChild(element)
+	})
 })
 
 /* FUNCTIONS */
@@ -41,7 +79,6 @@ async function setWeather() {
 	let weatherData = await getWeatherJson()
 	let farenheight = (weatherData.main.temp * (9/5) + 32).toFixed(2)
 	weatherP.textContent = `${farenheight} °F / ${weatherData.main.temp} °C in ${weatherData.name} - ${weatherData.weather[0].description} `
-	console.log(`${weatherData.weather[0].main}, ${weatherData.weather[0].icon}`)
 	let weatherId = weatherData.weather[0].id
 	var icon = weatherIconDict[weatherId].icon	
 	if (!(weatherId >= 700 && weatherId < 800) && !(weatherId >= 900 && weatherId < 1000)) {

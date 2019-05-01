@@ -4,6 +4,14 @@
   color: white;
 }
 
+a {
+  color: #BBBBBB;
+}
+
+a:hover {
+  color: #ff33cc;
+}
+
 html {
   font-family: "Hack";
   background-color: #292929;
