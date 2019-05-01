@@ -32,6 +32,8 @@ async function main() {
 	setDateTime()	
 	setInterval(time, 1000)
 	setLinks()
+	document.getElementById("content").style.display = "contents" 
+	document.getElementById("loading").style.display = "none"
 }
 
 

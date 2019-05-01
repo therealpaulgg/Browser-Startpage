@@ -19,6 +19,10 @@ html {
   color: white;
 }
 
+#content {
+  display: none;
+}
+
 .centerme {
     text-align: center;
 }
