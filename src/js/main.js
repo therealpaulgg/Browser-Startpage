@@ -9,14 +9,14 @@ weatherP.style = "display: inline;"
 let dateTimeP = document.getElementById("dateTimeP")
 let weatherIcon = document.createElement("i")
 
-var sunrise;
-var sunset;
-var updateTime;
+var sunrise
+var sunset
+var updateTime
 
-var triggeredSunset;
-var triggeredSunrise;
+var triggeredSunset
+var triggeredSunrise
 
-var oldDay;
+var oldDay
 
 main()	
 
@@ -62,6 +62,8 @@ stuff.forEach((item) => {
 		var hyperlink = document.createElement("a")
 		hyperlink.href = `${link.url}`
 		hyperlink.textContent = `${link.url}`
+		hyperlink.target = "_blank"
+		hyperlink.rel = "noopener noreferrer"
 		element.textContent = string
 		element.appendChild(hyperlink)
 		item.div.appendChild(element)
@@ -125,6 +127,7 @@ async function time() {
 	else if ((date.getTime() / 1000 < sunset || date.getTime() / 1000 > sunrise) && !triggeredSunrise) setWeather()
 	
 	if (oldDay != date.getDay()) setWeather()	
+	oldDay = date.getDay()
 }
 
 async function getWeatherJson() {

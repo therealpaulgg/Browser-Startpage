@@ -12,7 +12,11 @@ var socialLinks = [
 var mediaLinks = [
   {
     name: "Plex",
-    url: "https://plex.com"
+    url: "https://plex.tv"
+  },
+  {
+    name: "Youtube",
+    url: "https://youtube.com"
   }
 ]
 
@@ -20,6 +24,18 @@ var productivityLinks = [
   {
     name: "Github",
     url: "https://github.com"
+  },
+  {
+    name: "ToDoIst", 
+    url: "https://todoist.com"
+  },
+  {
+    name: "Coinlib",
+    url: "https://coinlib.io"
+  }, 
+  {
+    name: "Mint",
+    url: "https://mint.intuit.com"
   }
 ]
 
