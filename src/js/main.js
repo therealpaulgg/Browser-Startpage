@@ -3,20 +3,22 @@ let forecastUrl// "https://api.openweathermap.org/data/2.5/forecast?id=5317058&u
 
 const locationUrl = "https://www.geoip-db.com/json/"
 
+// HTML elements that will be modified
 let div = document.getElementById("weather")
 let weatherP = document.getElementById("weatherP")
 let dateTimeP = document.getElementById("dateTimeP")
+// creation of weather icon
 let weatherIcon = document.createElement("i")
 
+// information on user's location
 let country_code
 let postal
 
+// variables for updating weather status
 let sunrise
 let sunset
-
 let sunsetSwitch = false
 let sunriseSwitch = false
-
 let oldUpdateTime
 
 main()	
@@ -34,12 +36,7 @@ async function main() {
 
 
 async function getUserLocation() {
-	let json = await fetch(locationUrl)
-				.then((response) => {
-						if (response.ok) {
-								return response.json()
-						}
-				})
+	let json = await getJson(locationUrl)
 	country_code = json.country_code
 	postal = json.postal
 }
@@ -165,11 +162,16 @@ function setLinks() {
 }
 
 async function getWeatherJson() {
-		let json = await fetch(weatherUrl)
+		let json = await getJson(weatherUrl)
+		return json
+}
+
+async function getJson(url) {
+	let json = await fetch(url)
 				.then((response) => {
 						if (response.ok) {
 								return response.json()
 						}
 				})
-		return json
+	return json
 }
