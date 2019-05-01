@@ -1,4 +1,4 @@
-var socialLinks = [
+let socialLinks = [
   {
     name : "Twitter",
     url: "https://twitter.com"
@@ -9,7 +9,7 @@ var socialLinks = [
   }
 ]
 
-var mediaLinks = [
+let mediaLinks = [
   {
     name: "Plex",
     url: "https://plex.tv"
@@ -20,7 +20,7 @@ var mediaLinks = [
   }
 ]
 
-var productivityLinks = [
+let productivityLinks = [
   {
     name: "Github",
     url: "https://github.com"
@@ -39,7 +39,7 @@ var productivityLinks = [
   }
 ]
 
-var newsLinks = [
+let newsLinks = [
   {
     name: "Google News",
     url: "https://news.google.com"
@@ -294,7 +294,7 @@ let weatherIconDict = {
   
   "800": {
     "label": "clear sky",
-    "icon": "sunny"
+    "icon": "clear"
   },
   
   "801": {
@@ -355,7 +355,7 @@ let weatherIconDict = {
   
   "951": {
     "label": "calm",
-    "icon": "sunny"
+    "icon": "clear"
   },
   
   "952": {

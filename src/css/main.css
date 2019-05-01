@@ -1,5 +1,5 @@
 .jumbotron {
-  background-color: #292929;
+  background-color: #222222;
   font-family: "Hack";
   color: white;
 }
@@ -12,16 +12,29 @@ a:hover {
   color: #ff33cc;
 }
 
-.col-sm {
-  
-}
-
 html {
   font-family: "Hack";
-  background-color: #292929;
+  background-color: #222222;
+  /* background-image: url(../sheev.jpeg); */
   color: white;
 }
 
 .centerme {
     text-align: center;
+}
+
+#smh {
+  color: #ff50d3;
+}
+
+#mh {
+  color: #f85d5d;;
+}
+
+#ph {
+  color: #00ff77;
+}
+
+#nh {
+  color: #00ddfa;
 }
