@@ -9,6 +9,13 @@ weatherP.style = "display: inline;"
 let dateTimeP = document.getElementById("dateTimeP")
 let weatherIcon = document.createElement("i")
 
+var sunrise;
+var sunset;
+var updateTime;
+
+var triggeredSunset;
+var triggeredSunrise;
+
 main()	
 let timerId = setInterval(time, 1000)
 
@@ -37,11 +44,19 @@ async function setWeather() {
 	var icon = weatherIconDict[weatherId].icon	
 	if (!(weatherId >= 700 && weatherId < 800) && !(weatherId >= 900 && weatherId < 1000)) {
 		let date = new Date()
-		if (date.getTime() / 1000 > weatherData.sys.sunset || date.getTime() / 1000 < weatherData.sys.sunrise) icon = "night-" + icon
-		else icon = "day-" + icon
+		if (date.getTime() / 1000 > weatherData.sys.sunset || date.getTime() / 1000 < weatherData.sys.sunrise) {
+			icon = "night-" + icon
+			triggeredSunset = true
+			triggeredSunrise = false
+		}
+		else {
+			icon = "day-" + icon
+			triggeredSunrise = true
+			triggeredSunset = false
+		}	
 	}
+
 	icon = "wi wi-" + icon
-	
 	weatherIcon.className += icon
 	weatherP.appendChild(weatherIcon)
 }
@@ -52,6 +67,7 @@ function setDateTime() {
 	let mins = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
 	let secs = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
 	dateTimeP.textContent = `${date.toLocaleDateString()} - ${hrs}:${mins}:${secs}`
+	updateTime = date.getTime()
 }
 
 async function time() {
@@ -60,6 +76,17 @@ async function time() {
 	let mins = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
 	let secs = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
 	dateTimeP.textContent = `${date.toLocaleDateString()} - ${hrs}:${mins}:${secs}`
+
+	// update weather information if it has been 10 minutes or if it is sunset/sunrise
+
+	if (date.getTime() - updateTime > 10 * 60 * 1000) {
+		setWeather()
+	} else if ((date.getTime() / 1000 > weatherData.sys.sunset || date.getTime() / 1000 < weatherData.sys.sunrise) && !triggeredSunset) {
+		setWeather()
+	} else if ((date.getTime() / 1000 < weatherData.sys.sunset || date.getTime() / 1000 > weatherData.sys.sunrise) && !triggeredSunrise) {
+		setWeather()
+	} 
+	
 }
 
 async function getWeatherJson() {
