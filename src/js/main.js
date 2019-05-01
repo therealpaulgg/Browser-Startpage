@@ -27,8 +27,8 @@ function main() {
 
 async function setWeather() {
 	let weatherData = await getWeatherJson()
-	let farenheight = (weatherData.main.temp * (9/5) + 32).toFixed(2)
-	weatherP.textContent = `${farenheight} °F / ${weatherData.main.temp} °C in ${weatherData.name} - ${weatherData.weather[0].description} `
+	let fahrenheit = (weatherData.main.temp * (9/5) + 32).toFixed(2)
+	weatherP.textContent = `${fahrenheit} °F / ${weatherData.main.temp} °C in ${weatherData.name} - ${weatherData.weather[0].description} `
 	let weatherId = weatherData.weather[0].id
 	let icon = weatherIconDict[weatherId].icon	
 	if (!(weatherId > 699 && weatherId < 800) && !(weatherId > 899 && weatherId < 1000)) {
