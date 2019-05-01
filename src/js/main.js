@@ -1,10 +1,15 @@
-const weatherUrl = "https://api.openweathermap.org/data/2.5/weather?id=5317058&units=metric&APPID=9ec985f43b7fc537d4ab3d4953fb50ed"
-const forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?id=5317058&units=metric&APPID=9ec985f43b7fc537d4ab3d4953fb50ed"
+let weatherUrl// "https://api.openweathermap.org/data/2.5/weather?id=5317058&units=metric&APPID=9ec985f43b7fc537d4ab3d4953fb50ed"
+let forecastUrl// "https://api.openweathermap.org/data/2.5/forecast?id=5317058&units=metric&APPID=9ec985f43b7fc537d4ab3d4953fb50ed"
+
+const locationUrl = "https://www.geoip-db.com/json/"
 
 let div = document.getElementById("weather")
 let weatherP = document.getElementById("weatherP")
 let dateTimeP = document.getElementById("dateTimeP")
 let weatherIcon = document.createElement("i")
+
+let country_code
+let postal
 
 let sunrise
 let sunset
@@ -18,11 +23,25 @@ main()
 
 /* FUNCTIONS */
 
-function main() {
-	setWeather()
+async function main() {
+	await getUserLocation()
+	weatherUrl = `https://api.openweathermap.org/data/2.5/weather?zip=${postal},${country_code}&units=metric&APPID=9ec985f43b7fc537d4ab3d4953fb50ed`
+	await setWeather()
 	setDateTime()	
 	setInterval(time, 1000)
 	setLinks()
+}
+
+
+async function getUserLocation() {
+	let json = await fetch(locationUrl)
+				.then((response) => {
+						if (response.ok) {
+								return response.json()
+						}
+				})
+	country_code = json.country_code
+	postal = json.postal
 }
 
 async function setWeather() {
