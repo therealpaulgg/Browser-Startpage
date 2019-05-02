@@ -23,6 +23,21 @@ html {
   display: none;
 }
 
+.search-bar {
+  color: #ffffff;
+  background-color: #292929;
+  border-color: #555555;
+  border-left-color: #555555;
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
+}
+/* 
+.search-bar:required {
+  border-color: salmon;
+  border-width: 3px;
+} */
+
 .centerme {
     text-align: center;
 }

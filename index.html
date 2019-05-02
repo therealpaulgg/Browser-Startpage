@@ -1,52 +1,57 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <head>
-      <meta charset="utf-8"/>
-      <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-      <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css'>
-	    <link rel="stylesheet" type="text/css" href="src/css/main.css"/>
-      <link rel="stylesheet" type="text/css" href="src/css/weather-icons.min.css"/>
-      <!-- Latest compiled and minified JavaScript -->
-    </head>
-    <body>
-      <div class="jumbotron">
-        <h2 id="loading" class="centerme">Loading...</h2>
-          <div id="content" class="container">
-            <div class="centerme">
-                <h1>Hello There</h1>
-                <br>
-                <div id="weather">
-                  <h2 id="weatherP"></h2>
-                  <h2 id="dateTimeP"></h2>
-                </div>
-            </div>
+  <head>
+    <meta charset="utf-8"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css'>
+    <link rel="stylesheet" type="text/css" href="src/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="src/css/weather-icons.min.css"/>
+    <!-- Latest compiled and minified JavaScript -->
+  </head>
+  <body>
+    <div class="jumbotron jumbotron-fluid">
+      <h2 id="loading" class="centerme">Loading...</h2>
+        <div id="content" class="container">
+          <div class="centerme">
+            <h1>Hello There</h1>
             <br>
-            <div class="container centerme">
-                <div class="row">
-                  <div class="col-sm">
-                    <h4 id="smh">Social Media</h4>
-                    <div id="social-links"></div>
-                  </div>
-                  <div class="col-sm">
-                    <h4 id="mh">Media</h4>
-                    <div id="media-links"></div>
-                  </div>
-                  <div class="col-sm">
-                    <h4 id="ph">Productivity</h4>
-                    <div id="productivity-links"></div>
-                  </div>
-                  <div class="col-sm">
-                    <h4 id="nh">News Category</h4>
-                    <div id="news-links"></div>
-                  </div>
-                </div>
-              </div>  
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-            <script type="text/javascript" src="src/js/links.js"></script>
-            <script type="text/javascript" src="src/js/main.js"></script>
+            <div id="weather">
+              <h2 id="weatherP"></h2>
+              <h2 id="dateTimeP"></h2>
+            </div>
+            <form action="https://duckduckgo.com/search" method="get" target="_blank">
+              <div class="container input-group">
+                <input class="search-bar" placeholder="search the web" type="text">
+              </div>
+            </form>
           </div>
-      </div>
-    </body>
+          <br>
+          <div class="container centerme">
+            <div class="row">
+              <div class="col-sm">
+                <h4 id="smh">Social Media</h4>
+                <div id="social-links"></div>
+              </div>
+              <div class="col-sm">
+                <h4 id="mh">Media</h4>
+                <div id="media-links"></div>
+              </div>
+              <div class="col-sm">
+                <h4 id="ph">Productivity</h4>
+                <div id="productivity-links"></div>
+              </div>
+              <div class="col-sm">
+                <h4 id="nh">News Category</h4>
+                <div id="news-links"></div>
+              </div>
+            </div>
+          </div>  
+        </div>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="src/js/links.js"></script>
+        <script type="text/javascript" src="src/js/main.js"></script>
+    </div>
+  </body>
 </html>
