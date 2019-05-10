@@ -54,7 +54,8 @@ async function main() {
 }
 
 function loadSettings() {
-	if (typeof degreeMode === "undefined") {
+	if (degreeMode == null) {
+		console.log("degree undefined")
 		degreeMode = "celsius"
 		pickedDegreeRadio = "celsius"
 		localStorage.setItem("degreeMode", "celsius")
