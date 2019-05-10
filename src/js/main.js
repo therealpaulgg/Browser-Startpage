@@ -6,11 +6,16 @@ const MAX_FETCH_RETRIES = 7
 
 // HTML elements that will be modified
 let div = document.getElementById("weather")
-let weatherP = document.getElementById("weatherP")
+let weatherP = document.getElementById("weather-content")
 let dateTimeP = document.getElementById("dateTimeP")
 let sidebar = document.getElementById("sidebar")
 // creation of weather icon
 let weatherIcon = document.createElement("i")
+let degreeMode = localStorage.getItem("degreeMode")
+let pickedDegreeRadio = degreeMode
+let bothDegrees = localStorage.getItem("bothDegreesToggle")
+console.log(bothDegrees)
+let temperature
 
 // variables for updating weather status
 let sunrise
@@ -18,14 +23,41 @@ let sunset
 let sunsetSwitch = false
 let sunriseSwitch = false
 
+let description
+let weatherLocation
+
 main()
 
 /* FUNCTIONS */
 
 async function main() {
 	// look at changes in set weather
-	let ten_minutes_in_millis = 1000 * 10 * 60
-	setIntervalAsync(setWeather, ten_minutes_in_millis)
+
+	if (typeof degreeMode === "undefined") {
+		degreeMode = "celsius"
+		pickedDegreeRadio = "celsius"
+		localStorage.setItem("degreeMode", "celsius")
+	}
+
+	if (degreeMode == "fahrenheit") {
+		document.getElementById("fahrenheitRadio").checked = true
+		pickedDegreeRadio = "fahrenheit"
+	} else {
+		document.getElementById("celsiusRadio").checked = true
+		pickedDegreeRadio = "celsius"
+	}
+
+	if (typeof bothDegrees === "undefined") {
+		bothDegrees = "no"
+		localStorage.setItem("bothDegreesToggle", "no")
+	}
+
+	if (bothDegrees == "yes") {
+		document.getElementById("bothDegreesToggle").checked = true
+	}
+
+	let tenMinutesInMillis = 1000 * 10 * 60
+	setIntervalAsync(setWeather, tenMinutesInMillis)
 	await setWeather()
 	setDateTime()
 	time()
@@ -41,9 +73,9 @@ function log(val) {
 }
 
 // setInterval function that can deal with async
-function setIntervalAsync(fn, interval_in_millis) {
+function setIntervalAsync(fn, intervalInMillis) {
 	fn().then(() => {
-		setTimeout(() => setIntervalAsync(fn, interval_in_millis), interval_in_millis)
+		setTimeout(() => setIntervalAsync(fn, intervalInMillis), intervalInMillis)
 	})
 }
 
@@ -55,8 +87,32 @@ async function getUserLocation() {
 async function setWeather() {
 	let [country, postal] = await getUserLocation()
 	let weatherData = await getWeatherJson(country, postal)
+	tempereature = weatherData.main.temp
+	let mode
+	let celsius = weatherData.main.temp
 	let fahrenheit = (weatherData.main.temp * (9 / 5) + 32).toFixed(2)
-	weatherP.textContent = `${fahrenheit} °F / ${weatherData.main.temp} °C in ${weatherData.name} - ${weatherData.weather[0].description} `
+	if (degreeMode == "celsius") {
+		mode = "°C"
+		temperature = celsius
+	} else {
+		mode = "°F"
+		temperature = fahrenheit  
+	}
+
+
+	weatherLocation = weatherData.name
+	description = weatherData.weather[0].description
+	if (bothDegrees == "yes") {
+		// slash should be visible
+		weatherP.textContent = `${celsius} °C  / ${fahrenheit} °F in ${weatherLocation} - ${description} `
+	} else {
+		// slash should be not visible
+		weatherP.textContent = `${temperature} ${mode} in ${weatherLocation} - ${description} `
+	}
+
+	// rest of text content
+	
+
 	let weatherId = weatherData.weather[0].id
 	let icon = weatherIconDict[weatherId].icon
 	if (!(weatherId > 699 && weatherId < 800) && !(weatherId > 899 && weatherId < 1000)) {
@@ -200,8 +256,78 @@ function toggleSidebar(event) {
 	sidebar.classList.toggle("closed")
 }
 
-function bodyClick(event) {
-	if (event.target.id != "sidebar" && !sidebar.classList.contains("closed")) sidebar.classList.toggle("closed")
+function temperatureToggle(event) {
+	event.stopPropagation()
+	let mode
+	let celsius
+	let fahrenheit
+	if (document.getElementById("fahrenheitRadio").checked) {
+		if (pickedDegreeRadio == "fahrenheit") return
+		mode = "°F"
+		celsius = temperature
+		degreeMode = "fahrenheit"
+		temperature = (temperature * (9 / 5) + 32).toFixed(2)  
+		fahrenheit = temperature
+		pickedDegreeRadio = "fahrenheit"
+	} else {
+		if (pickedDegreeRadio == "celsius") return
+		mode = "°C"
+		degreeMode = "celsius"
+		fahrenheit = temperature
+		temperature = ((temperature - 32) * (5 / 9)).toFixed(2)
+		celsius = temperature
+		pickedDegreeRadio = "celsius"
+	}
+	localStorage.setItem("degreeMode", degreeMode)
+	if (bothDegrees == "yes") {
+		weatherP.textContent = `${celsius} °C  / ${fahrenheit} °F in ${weatherLocation} - ${description} `
+	} else {
+		weatherP.textContent = `${temperature} ${mode} in ${weatherLocation} - ${description} `
+	}
 }
 
+function bothDegreesToggleFn(event) {
+	if (event.target.checked) {
+		let celsius
+		let fahrenheit
+		if (degreeMode == "celsius") {
+			celsius = temperature
+			fahrenheit = (temperature * (9 / 5) + 32).toFixed(2)  
+		} else {
+			fahrenheit = temperature
+			celsius = ((temperature - 32) * (5 / 9)).toFixed(2)
+		}
+		weatherP.textContent = `${celsius} °C  / ${fahrenheit} °F in ${weatherLocation} - ${description} `
+		localStorage.setItem("bothDegreesToggle", "yes")
+		bothDegrees = "yes"
+	} else {
+		mode = degreeMode == "celsius" ? "°C"  : "°F" 
+		weatherP.textContent = `${temperature} ${mode} in ${weatherLocation} - ${description} `
+		localStorage.setItem("bothDegreesToggle", "no")
+		bothDegrees = "no"
+	}
+}
+
+// This function exists so that if the user clicks somewhere else on the screen, 
+// the sidebar collapses. Certain checks are needed to ensure it closes properly.
+
+function bodyClick(event) {
+	if (!isDescendant(sidebar, event.target) && event.target.id != "sidebar" && !sidebar.classList.contains("closed")) 
+		sidebar.classList.toggle("closed")
+}
+
+// Credit: https://stackoverflow.com/questions/2234979/how-to-check-in-javascript-if-one-element-is-contained-within-another
+
+function isDescendant(parent, child) {
+	var node = child.parentNode;
+	while (node != null) {
+		if (node == parent) {
+			return true;
+		}
+		node = node.parentNode;
+	}
+	return false;
+} 
+
 document.body.onclick = bodyClick
+document.body.closest

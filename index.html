@@ -28,12 +28,28 @@
         <a href="#" class="settings-button" onclick="toggleSidebar(event)"><i class="fa fa-times" aria-hidden="true"></i></a>
       </p>
         <h3>Settings</h3>
+        <p>Degree Mode</p>
+        
+        <label for="celsiusRadio" class="radio">
+          <input type="radio" name="rdo" id="celsiusRadio" onclick="temperatureToggle(event)" class="hidden"/>
+          <span class="label"></span>Celsius
+        </label>
+        
+        <label for="fahrenheitRadio" class="radio">
+          <input type="radio" name="rdo" id="fahrenheitRadio" onclick="temperatureToggle(event)" class="hidden"/>
+          <span class="label"></span>Fahrenheit
+        </label>
+
+        <input type="checkbox" id="bothDegreesToggle" class="cbx hidden" onclick="bothDegreesToggleFn(event)"/>
+        <label for="bothDegreesToggle" class="toggle-btn lbl"></label>
+        <p class="settings-label">Both Degrees</p>
+
       </div>
       <div class="centerme">
         <h1>Hello There</h1>
         <br>
         <div id="weather">
-          <h2 id="weatherP"></h2>
+          <h2 id="weatherP"><span id="celsius"><span id="slash"> / </span><span id="fahrenheit"></span><span id="weather-content"></span></h2>
           <h2 id="dateTimeP"></h2>
         </div>
         <form action="https://duckduckgo.com/" method="get" target="_blank">
