@@ -28,28 +28,45 @@
         <a href="#" class="settings-button" onclick="toggleSidebar(event)"><i class="fa fa-times" aria-hidden="true"></i></a>
       </p>
         <h3>Settings</h3>
-        <p>Degree Mode</p>
+        <hr id="bar">
         
-        <label for="celsiusRadio" class="radio">
-          <input type="radio" name="rdo" id="celsiusRadio" onclick="temperatureToggle(event)" class="hidden"/>
-          <span class="label"></span>Celsius
-        </label>
+        <div class="radio-group">
+          <label for="celsiusRadio" class="radio">
+            <p class="radio-label">Degree Mode</p>
+            <input type="radio" name="degreegrp" id="celsiusRadio" onclick="temperatureToggle(event)" class="hidden"/>
+            <span class="label"></span>Celsius
+          </label>
+          
+          <label for="fahrenheitRadio" class="radio">
+            <input type="radio" name="degreegrp" id="fahrenheitRadio" onclick="temperatureToggle(event)" class="hidden"/>
+            <span class="label"></span>Fahrenheit
+          </label>
+        </div>
         
-        <label for="fahrenheitRadio" class="radio">
-          <input type="radio" name="rdo" id="fahrenheitRadio" onclick="temperatureToggle(event)" class="hidden"/>
-          <span class="label"></span>Fahrenheit
-        </label>
+        <div class="toggle">
+          <p class="settings-label">Both Degrees</p>
+          <input type="checkbox" id="bothDegreesToggle" class="cbx hidden" onclick="bothDegreesToggleFn(event)"/>
+          <label for="bothDegreesToggle" class="toggle-btn lbl"></label>
+        </div>
 
-        <input type="checkbox" id="bothDegreesToggle" class="cbx hidden" onclick="bothDegreesToggleFn(event)"/>
-        <label for="bothDegreesToggle" class="toggle-btn lbl"></label>
-        <p class="settings-label">Both Degrees</p>
-
+        <div class="radio-group">
+            <label for="lightRadio" class="radio">
+              <p class="radio-label">Theme</p>
+              <input type="radio" name="themegrp" id="lightRadio" onclick="toggleTheme(event)" class="hidden"/>
+              <span class="label"></span>Light Mode
+            </label>
+            
+            <label for="darkRadio" class="radio">
+              <input type="radio" name="themegrp" id="darkRadio" onclick="toggleTheme(event)" class="hidden"/>
+              <span class="label"></span>Dark Mode
+            </label>
+        </div>
       </div>
       <div class="centerme">
         <h1>Hello There</h1>
         <br>
         <div id="weather">
-          <h2 id="weatherP"><span id="celsius"><span id="slash"> / </span><span id="fahrenheit"></span><span id="weather-content"></span></h2>
+          <h2 id="weatherP"><span id="celsius"></span><span id="slash"> / </span><span id="fahrenheit"></span><span id="weather-content"></span></h2>
           <h2 id="dateTimeP"></h2>
         </div>
         <form action="https://duckduckgo.com/" method="get" target="_blank">

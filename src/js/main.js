@@ -6,16 +6,25 @@ const MAX_FETCH_RETRIES = 7
 
 // HTML elements that will be modified
 let div = document.getElementById("weather")
-let weatherP = document.getElementById("weather-content")
+
+// In this version, there are spans inside the main header which each have their own content. 
+let weatherContent = document.getElementById("weather-content")
+let celsiusElement = document.getElementById("celsius")
+let fahrenheitElement = document.getElementById("fahrenheit")
+// Slash element is required because it may be hidden/unhidden. 
+let slashElement = document.getElementById("slash")
+
 let dateTimeP = document.getElementById("dateTimeP")
 let sidebar = document.getElementById("sidebar")
 // creation of weather icon
 let weatherIcon = document.createElement("i")
+
+// Variables for user settings
 let degreeMode = localStorage.getItem("degreeMode")
 let pickedDegreeRadio = degreeMode
 let bothDegrees = localStorage.getItem("bothDegreesToggle")
-console.log(bothDegrees)
-let temperature
+let theme = localStorage.getItem("theme")
+let pickedThemeRadio = theme
 
 // variables for updating weather status
 let sunrise
@@ -32,7 +41,19 @@ main()
 
 async function main() {
 	// look at changes in set weather
+	loadSettings()
+	let tenMinutesInMillis = 1000 * 10 * 60
+	setIntervalAsync(setWeather, tenMinutesInMillis)
+	await setWeather()
+	setDateTime()
+	time()
 
+	setLinks()
+	document.getElementById("content").style.display = "contents"
+	document.getElementById("loading").style.display = "none"
+}
+
+function loadSettings() {
 	if (typeof degreeMode === "undefined") {
 		degreeMode = "celsius"
 		pickedDegreeRadio = "celsius"
@@ -56,15 +77,23 @@ async function main() {
 		document.getElementById("bothDegreesToggle").checked = true
 	}
 
-	let tenMinutesInMillis = 1000 * 10 * 60
-	setIntervalAsync(setWeather, tenMinutesInMillis)
-	await setWeather()
-	setDateTime()
-	time()
+	if (theme == null) {
+		console.log("theme not defined")
+		theme = "dark"
+		pickedThemeRadio = theme
+		localStorage.setItem("theme", theme)
+	}
 
-	setLinks()
-	document.getElementById("content").style.display = "contents"
-	document.getElementById("loading").style.display = "none"
+	console.log(theme)
+	if (theme == "dark") {
+		// dark theme is default
+		document.body.classList.add("dark")
+		document.getElementById("darkRadio").checked = true
+	} else if (theme == "light") {
+		// change stuff to light
+		document.body.classList.add("light")
+		document.getElementById("lightRadio").checked = true
+	}
 }
 
 function log(val) {
@@ -87,31 +116,40 @@ async function getUserLocation() {
 async function setWeather() {
 	let [country, postal] = await getUserLocation()
 	let weatherData = await getWeatherJson(country, postal)
-	tempereature = weatherData.main.temp
-	let mode
 	let celsius = weatherData.main.temp
 	let fahrenheit = (weatherData.main.temp * (9 / 5) + 32).toFixed(2)
-	if (degreeMode == "celsius") {
-		mode = "°C"
-		temperature = celsius
-	} else {
-		mode = "°F"
-		temperature = fahrenheit  
-	}
+	let primaryOption
 
+	// Both the celsius and fahrenheit element should be filled with text.
+	// It is easier to hide/unhide these elements rather than change their text content. 
+
+	celsiusElement.textContent = `${celsius} °C`
+	fahrenheitElement.textContent = `${fahrenheit} °F` 
+	if (degreeMode == "celsius") {
+		primaryOption = celsiusElement
+		secondaryOption = fahrenheitElement
+	} else {
+		primaryOption = fahrenheitElement
+		secondaryOption = celsiusElement
+	}
 
 	weatherLocation = weatherData.name
 	description = weatherData.weather[0].description
+	primaryOption.classList.remove("secondary")
+	
 	if (bothDegrees == "yes") {
-		// slash should be visible
-		weatherP.textContent = `${celsius} °C  / ${fahrenheit} °F in ${weatherLocation} - ${description} `
+		slashElement.classList.remove("hidden")
+		secondaryOption.classList.remove("hidden")
+		secondaryOption.classList.add("secondary")
 	} else {
 		// slash should be not visible
-		weatherP.textContent = `${temperature} ${mode} in ${weatherLocation} - ${description} `
+		slashElement.classList.add("hidden")
+		secondaryOption.classList.add("hidden") 
+		secondaryOption.classList.remove("secondary")
 	}
 
-	// rest of text content
-	
+	// rest of text content should be computed
+	weatherContent.textContent = ` in ${weatherLocation} - ${description} `
 
 	let weatherId = weatherData.weather[0].id
 	let icon = weatherIconDict[weatherId].icon
@@ -126,7 +164,7 @@ async function setWeather() {
 
 	icon = "wi wi-" + icon
 	weatherIcon.className += icon
-	weatherP.appendChild(weatherIcon)
+	weatherContent.appendChild(weatherIcon)
 	sunrise = weatherData.sys.sunrise
 	sunset = weatherData.sys.sunset
 }
@@ -258,54 +296,84 @@ function toggleSidebar(event) {
 
 function temperatureToggle(event) {
 	event.stopPropagation()
-	let mode
-	let celsius
-	let fahrenheit
+	let primaryOption
+	let secondaryOption
 	if (document.getElementById("fahrenheitRadio").checked) {
+		// Fast exit if same radio button is clicked.
 		if (pickedDegreeRadio == "fahrenheit") return
-		mode = "°F"
-		celsius = temperature
 		degreeMode = "fahrenheit"
-		temperature = (temperature * (9 / 5) + 32).toFixed(2)  
-		fahrenheit = temperature
 		pickedDegreeRadio = "fahrenheit"
+		primaryOption = fahrenheitElement
+		secondaryOption = celsiusElement
 	} else {
+		// Fast exit if same radio button is clicked.
 		if (pickedDegreeRadio == "celsius") return
-		mode = "°C"
 		degreeMode = "celsius"
-		fahrenheit = temperature
-		temperature = ((temperature - 32) * (5 / 9)).toFixed(2)
-		celsius = temperature
 		pickedDegreeRadio = "celsius"
+		primaryOption = celsiusElement
+		secondaryOption = fahrenheitElement
 	}
+
 	localStorage.setItem("degreeMode", degreeMode)
+
+	primaryOption.classList.remove("secondary")
+
 	if (bothDegrees == "yes") {
-		weatherP.textContent = `${celsius} °C  / ${fahrenheit} °F in ${weatherLocation} - ${description} `
+		slashElement.classList.remove("hidden")
+		secondaryOption.classList.remove("hidden")
+		secondaryOption.classList.add("secondary")
 	} else {
-		weatherP.textContent = `${temperature} ${mode} in ${weatherLocation} - ${description} `
+		// Reset everything before changing status of other.
+		fahrenheitElement.classList.remove("hidden")
+		celsiusElement.classList.remove("hidden")
+		slashElement.classList.add("hidden")
+		secondaryOption.classList.add("hidden") 
+		secondaryOption.classList.remove("secondary")
 	}
 }
 
 function bothDegreesToggleFn(event) {
+	let primaryOption
+	let secondaryOption
+	if (degreeMode == "celsius") {
+		primaryOption = celsiusElement
+		secondaryOption = fahrenheitElement
+	} else {
+		primaryOption = fahrenheitElement
+		secondaryOption = celsiusElement
+	}
 	if (event.target.checked) {
-		let celsius
-		let fahrenheit
-		if (degreeMode == "celsius") {
-			celsius = temperature
-			fahrenheit = (temperature * (9 / 5) + 32).toFixed(2)  
-		} else {
-			fahrenheit = temperature
-			celsius = ((temperature - 32) * (5 / 9)).toFixed(2)
-		}
-		weatherP.textContent = `${celsius} °C  / ${fahrenheit} °F in ${weatherLocation} - ${description} `
-		localStorage.setItem("bothDegreesToggle", "yes")
+		slashElement.classList.remove("hidden")
+		primaryOption.classList.remove("hidden")
+		primaryOption.classList.remove("secondary")
+		secondaryOption.classList.remove("hidden")
+		secondaryOption.classList.add("secondary")
 		bothDegrees = "yes"
 	} else {
-		mode = degreeMode == "celsius" ? "°C"  : "°F" 
-		weatherP.textContent = `${temperature} ${mode} in ${weatherLocation} - ${description} `
-		localStorage.setItem("bothDegreesToggle", "no")
+		secondaryOption.classList.add("hidden")
+		slashElement.classList.add("hidden")
 		bothDegrees = "no"
 	}
+	localStorage.setItem("bothDegreesToggle", bothDegrees)
+}
+
+function toggleTheme(event) {
+	event.stopPropagation()
+
+	if (document.getElementById("lightRadio").checked) {
+		if (pickedThemeRadio == "light") return
+		theme = "light"
+		pickedThemeRadio = "light"
+		document.body.classList.remove("dark")
+		document.body.classList.add("light")
+	} else {
+		if (pickedThemeRadio == "dark") return
+		theme = "dark"
+		pickedThemeRadio = "dark"
+		document.body.classList.remove("light")
+		document.body.classList.add("dark")
+	}
+	localStorage.setItem("theme", theme)
 }
 
 // This function exists so that if the user clicks somewhere else on the screen, 
