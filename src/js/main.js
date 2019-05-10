@@ -6,10 +6,25 @@ const MAX_FETCH_RETRIES = 7
 
 // HTML elements that will be modified
 let div = document.getElementById("weather")
-let weatherP = document.getElementById("weatherP")
+
+// In this version, there are spans inside the main header which each have their own content. 
+let weatherContent = document.getElementById("weather-content")
+let celsiusElement = document.getElementById("celsius")
+let fahrenheitElement = document.getElementById("fahrenheit")
+// Slash element is required because it may be hidden/unhidden. 
+let slashElement = document.getElementById("slash")
+
 let dateTimeP = document.getElementById("dateTimeP")
+let sidebar = document.getElementById("sidebar")
 // creation of weather icon
 let weatherIcon = document.createElement("i")
+
+// Variables for user settings
+let degreeMode = localStorage.getItem("degreeMode")
+let pickedDegreeRadio = degreeMode
+let bothDegrees = localStorage.getItem("bothDegreesToggle")
+let theme = localStorage.getItem("theme")
+let pickedThemeRadio = theme
 
 // variables for updating weather status
 let sunrise
@@ -17,14 +32,18 @@ let sunset
 let sunsetSwitch = false
 let sunriseSwitch = false
 
+let description
+let weatherLocation
+
 main()
 
 /* FUNCTIONS */
 
 async function main() {
 	// look at changes in set weather
-	let ten_minutes_in_millis = 1000 * 10 * 60
-	setIntervalAsync(setWeather, ten_minutes_in_millis)
+	loadSettings()
+	let tenMinutesInMillis = 1000 * 10 * 60
+	setIntervalAsync(setWeather, tenMinutesInMillis)
 	await setWeather()
 	setDateTime()
 	time()
@@ -34,15 +53,58 @@ async function main() {
 	document.getElementById("loading").style.display = "none"
 }
 
+function loadSettings() {
+	if (typeof degreeMode === "undefined") {
+		degreeMode = "celsius"
+		pickedDegreeRadio = "celsius"
+		localStorage.setItem("degreeMode", "celsius")
+	}
+
+	if (degreeMode == "fahrenheit") {
+		document.getElementById("fahrenheitRadio").checked = true
+		pickedDegreeRadio = "fahrenheit"
+	} else {
+		document.getElementById("celsiusRadio").checked = true
+		pickedDegreeRadio = "celsius"
+	}
+
+	if (typeof bothDegrees === "undefined") {
+		bothDegrees = "no"
+		localStorage.setItem("bothDegreesToggle", "no")
+	}
+
+	if (bothDegrees == "yes") {
+		document.getElementById("bothDegreesToggle").checked = true
+	}
+
+	if (theme == null) {
+		console.log("theme not defined")
+		theme = "dark"
+		pickedThemeRadio = theme
+		localStorage.setItem("theme", theme)
+	}
+
+	console.log(theme)
+	if (theme == "dark") {
+		// dark theme is default
+		document.body.classList.add("dark")
+		document.getElementById("darkRadio").checked = true
+	} else if (theme == "light") {
+		// change stuff to light
+		document.body.classList.add("light")
+		document.getElementById("lightRadio").checked = true
+	}
+}
+
 function log(val) {
 	console.log(val)
 	return val
 }
 
 // setInterval function that can deal with async
-function setIntervalAsync(fn, interval_in_millis) {
+function setIntervalAsync(fn, intervalInMillis) {
 	fn().then(() => {
-		setTimeout(() => setIntervalAsync(fn, interval_in_millis), interval_in_millis)
+		setTimeout(() => setIntervalAsync(fn, intervalInMillis), intervalInMillis)
 	})
 }
 
@@ -54,8 +116,41 @@ async function getUserLocation() {
 async function setWeather() {
 	let [country, postal] = await getUserLocation()
 	let weatherData = await getWeatherJson(country, postal)
+	let celsius = weatherData.main.temp
 	let fahrenheit = (weatherData.main.temp * (9 / 5) + 32).toFixed(2)
-	weatherP.textContent = `${fahrenheit} °F / ${weatherData.main.temp} °C in ${weatherData.name} - ${weatherData.weather[0].description} `
+	let primaryOption
+
+	// Both the celsius and fahrenheit element should be filled with text.
+	// It is easier to hide/unhide these elements rather than change their text content. 
+
+	celsiusElement.textContent = `${celsius} °C`
+	fahrenheitElement.textContent = `${fahrenheit} °F` 
+	if (degreeMode == "celsius") {
+		primaryOption = celsiusElement
+		secondaryOption = fahrenheitElement
+	} else {
+		primaryOption = fahrenheitElement
+		secondaryOption = celsiusElement
+	}
+
+	weatherLocation = weatherData.name
+	description = weatherData.weather[0].description
+	primaryOption.classList.remove("secondary")
+	
+	if (bothDegrees == "yes") {
+		slashElement.classList.remove("hidden")
+		secondaryOption.classList.remove("hidden")
+		secondaryOption.classList.add("secondary")
+	} else {
+		// slash should be not visible
+		slashElement.classList.add("hidden")
+		secondaryOption.classList.add("hidden") 
+		secondaryOption.classList.remove("secondary")
+	}
+
+	// rest of text content should be computed
+	weatherContent.textContent = ` in ${weatherLocation} - ${description} `
+
 	let weatherId = weatherData.weather[0].id
 	let icon = weatherIconDict[weatherId].icon
 	if (!(weatherId > 699 && weatherId < 800) && !(weatherId > 899 && weatherId < 1000)) {
@@ -69,7 +164,7 @@ async function setWeather() {
 
 	icon = "wi wi-" + icon
 	weatherIcon.className += icon
-	weatherP.appendChild(weatherIcon)
+	weatherContent.appendChild(weatherIcon)
 	sunrise = weatherData.sys.sunrise
 	sunset = weatherData.sys.sunset
 }
@@ -191,3 +286,116 @@ async function getJson(url) {
 	}
 	return json
 }
+
+/* EVENT LISTENER FUNCTIONS */
+
+function toggleSidebar(event) {
+	event.stopPropagation()
+	sidebar.classList.toggle("closed")
+}
+
+function temperatureToggle(event) {
+	event.stopPropagation()
+	let primaryOption
+	let secondaryOption
+	if (document.getElementById("fahrenheitRadio").checked) {
+		// Fast exit if same radio button is clicked.
+		if (pickedDegreeRadio == "fahrenheit") return
+		degreeMode = "fahrenheit"
+		pickedDegreeRadio = "fahrenheit"
+		primaryOption = fahrenheitElement
+		secondaryOption = celsiusElement
+	} else {
+		// Fast exit if same radio button is clicked.
+		if (pickedDegreeRadio == "celsius") return
+		degreeMode = "celsius"
+		pickedDegreeRadio = "celsius"
+		primaryOption = celsiusElement
+		secondaryOption = fahrenheitElement
+	}
+
+	localStorage.setItem("degreeMode", degreeMode)
+
+	primaryOption.classList.remove("secondary")
+
+	if (bothDegrees == "yes") {
+		slashElement.classList.remove("hidden")
+		secondaryOption.classList.remove("hidden")
+		secondaryOption.classList.add("secondary")
+	} else {
+		// Reset everything before changing status of other.
+		fahrenheitElement.classList.remove("hidden")
+		celsiusElement.classList.remove("hidden")
+		slashElement.classList.add("hidden")
+		secondaryOption.classList.add("hidden") 
+		secondaryOption.classList.remove("secondary")
+	}
+}
+
+function bothDegreesToggleFn(event) {
+	let primaryOption
+	let secondaryOption
+	if (degreeMode == "celsius") {
+		primaryOption = celsiusElement
+		secondaryOption = fahrenheitElement
+	} else {
+		primaryOption = fahrenheitElement
+		secondaryOption = celsiusElement
+	}
+	if (event.target.checked) {
+		slashElement.classList.remove("hidden")
+		primaryOption.classList.remove("hidden")
+		primaryOption.classList.remove("secondary")
+		secondaryOption.classList.remove("hidden")
+		secondaryOption.classList.add("secondary")
+		bothDegrees = "yes"
+	} else {
+		secondaryOption.classList.add("hidden")
+		slashElement.classList.add("hidden")
+		bothDegrees = "no"
+	}
+	localStorage.setItem("bothDegreesToggle", bothDegrees)
+}
+
+function toggleTheme(event) {
+	event.stopPropagation()
+
+	if (document.getElementById("lightRadio").checked) {
+		if (pickedThemeRadio == "light") return
+		theme = "light"
+		pickedThemeRadio = "light"
+		document.body.classList.remove("dark")
+		document.body.classList.add("light")
+	} else {
+		if (pickedThemeRadio == "dark") return
+		theme = "dark"
+		pickedThemeRadio = "dark"
+		document.body.classList.remove("light")
+		document.body.classList.add("dark")
+	}
+	localStorage.setItem("theme", theme)
+}
+
+// This function exists so that if the user clicks somewhere else on the screen, 
+// the sidebar collapses. Certain checks are needed to ensure it closes properly.
+
+function bodyClick(event) {
+	if (!isDescendant(sidebar, event.target) && event.target.id != "sidebar" && !sidebar.classList.contains("closed")) 
+		sidebar.classList.toggle("closed")
+}
+
+// Credit: https://stackoverflow.com/questions/2234979/how-to-check-in-javascript-if-one-element-is-contained-within-another
+
+function isDescendant(parent, child) {
+	var node = child.parentNode;
+	while (node != null) {
+		if (node == parent) {
+			return true;
+		}
+		node = node.parentNode;
+	}
+	return false;
+} 
+
+document.body.onclick = bodyClick
+document.body.closest

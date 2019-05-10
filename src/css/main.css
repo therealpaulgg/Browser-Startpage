@@ -1,22 +1,108 @@
-.jumbotron {
-  background-color: #222222;
-  font-family: "Hack";
-  color: white;
+.settings-button:hover {
+  -webkit-transition: 1s;
+  transition: 1s;
 }
 
-a {
+html, body {
+  font-family: "Hack";
+  /* background-image: url(../sheev.jpeg) */
+  height: 100%;
+  overflow: hidden;
+}
+
+body.dark {
+  background-color: #222222;
+  color: white;
+}
+body.dark .jumbotron {
+  background-color: #222222;
+  color: white;
+}
+body.dark a {
   color: #BBBBBB;
 }
-
-a:hover {
+body.dark a:hover {
   color: #ff33cc;
 }
-
-html {
-  font-family: "Hack";
-  background-color: #222222;
-  /* background-image: url(../sheev.jpeg); */
+body.dark .sidebar {
+  background-color: #444444;
   color: white;
+}
+body.dark .search-bar {
+  color: #ffffff;
+  background-color: #292929;
+  border-color: #555555;
+  border-left-color: #555555;
+}
+body.dark hr {
+  background-color: white;
+}
+
+body.light {
+  background-color: #DDDDDD;
+  color: black;
+}
+body.light .jumbotron {
+  background-color: #DDDDDD;
+  color: black;
+}
+body.light a {
+  color: #2c2c2c;
+}
+body.light a:hover {
+  color: #ff33cc;
+}
+body.light hr {
+  background-color: black;
+}
+body.light .sidebar {
+  background-color: #e6e6e6;
+  color: black;
+}
+body.light .search-bar {
+  color: #000000;
+  background-color: #cfcfcf;
+  border-color: #a7a7a7;
+  border-left-color: #a7a7a7;
+}
+
+.jumbotron {
+  font-family: "Hack";
+  height: 100%;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.sidebar {
+  visibility: visible;
+  position: absolute;
+  right: 0px;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  word-wrap: break-word;
+  padding: 10px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  z-index: 1;
+}
+
+.sidebar.closed {
+  visibility: hidden;
+  right: -200px;
+}
+
+.settings-button {
+  padding: 20px;
+  -webkit-transition: 1s;
+  transition: 1s;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.settings-label {
+  float: left;
 }
 
 #content {
@@ -24,22 +110,15 @@ html {
 }
 
 .search-bar {
-  color: #ffffff;
-  background-color: #292929;
-  border-color: #555555;
-  border-left-color: #555555;
   border-radius: 5px;
   padding: 10px;
   width: 100%;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
 }
-/* 
-.search-bar:required {
-  border-color: salmon;
-  border-width: 3px;
-} */
 
 .centerme {
-    text-align: center;
+  text-align: center;
 }
 
 #smh {
@@ -47,13 +126,181 @@ html {
 }
 
 #mh {
-  color: #f85d5d;;
+  color: #f85d5d;
 }
 
 #ph {
-  color: #00ff77;
+  color: #3adc86;
 }
 
 #nh {
   color: #00ddfa;
 }
+
+/* Code for Toggle: https://www.cssscript.com/material-style-toggle-switches-with-pure-css-css3/ */
+.lbl {
+  margin-left: 10px;
+  float: left;
+  position: relative;
+  display: block;
+  height: 20px;
+  width: 44px;
+  background: #898989;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lbl:after {
+  position: absolute;
+  left: -2px;
+  top: -3px;
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 100px;
+  background: #fff;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.05);
+  content: "";
+  transition: all 0.3s ease;
+}
+
+.lbl:active:after {
+  transform: scale(1.15, 0.85);
+}
+
+.cbx:checked ~ .toggle-btn {
+  background: #ff98dd;
+}
+
+.cbx:checked ~ .toggle-btn:after {
+  left: 20px;
+  background: #fa30d8;
+}
+
+.cbx:disabled ~ .toggle-btn {
+  background: #d5d5d5;
+  pointer-events: none;
+}
+
+.cbx:disabled ~ .toggle-btn:after {
+  background: #bcbdbc;
+}
+
+.hidden {
+  display: none;
+}
+
+.radio {
+  position: relative;
+  cursor: pointer;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.radio .label {
+  position: relative;
+  display: block;
+  float: left;
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #c8ccd4;
+  border-radius: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.radio .label:after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background: #225cff;
+  transform: scale(0);
+  transition: all 0.2s ease;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.radio:hover .label:after {
+  transform: scale(3.6);
+}
+
+input[type=radio]:checked + .label {
+  border-color: #225cff;
+}
+
+input[type=radio]:checked + .label:after {
+  transform: scale(1);
+  transition: all 0.2s cubic-bezier(0.35, 0.9, 0.4, 0.9);
+  opacity: 1;
+}
+
+.cntr {
+  position: absolute;
+  top: calc(50% - 10px);
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.credit {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  transition: all 0.2s ease;
+  -webkit-user-select: none;
+  user-select: none;
+  opacity: 0.6;
+}
+
+.credit img {
+  width: 72px;
+}
+
+.credit:hover {
+  transform: scale(0.95);
+}
+
+#slash.hidden {
+  visibility: hidden;
+}
+
+#celsius.hidden {
+  visibility: hidden;
+}
+
+#fahrenheit.hidden {
+  visibility: hidden;
+}
+
+.primary {
+  color: white;
+}
+
+.secondary {
+  color: gray;
+}
+
+.radioGroup {
+  margin-top: 7px;
+  margin-bottom: 7px;
+}
+
+.toggle {
+  margin-top: 7px;
+  margin-bottom: 7px;
+}
+
+.radio-label {
+  font-size: 16px;
+}
+
+/*# sourceMappingURL=main.css.map */

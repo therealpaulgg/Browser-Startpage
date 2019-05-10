@@ -1,0 +1,315 @@
+.jumbotron {
+  font-family: "Hack";
+}
+
+.jumbotron.dark {
+  background-color: #222222;
+  color: white;
+}
+
+.jumbotron.light {
+  background-color: #DDDDDD;
+  color: black;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 10px;
+}
+
+@media (prefers-color-scheme: light) {
+  
+}
+
+.item1 {
+  grid-row-start: 1;
+  grid-row-end: 4;
+}
+
+a.dark {
+  color: #BBBBBB;
+}
+
+a.light {
+  color: rgb(44, 44, 44);
+}
+
+a:hover {
+  color: #ff33cc;
+}
+
+.settings-button:hover {
+  -webkit-transition: 1s;
+  transition: 1s;
+}
+
+html, body {
+  font-family: "Hack";
+  /* background-image: url(../sheev.jpeg); */
+  height: 100%;
+  overflow: hidden;
+}
+
+body.dark {
+  background-color: #222222;
+  color: white;
+}
+
+body.light {
+  background-color: #DDDDDD;
+  color: black;
+}
+
+.sidebar {
+  visibility: visible;
+  position: absolute;  
+  right: 0px;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  word-wrap: break-word;
+  padding: 10px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  z-index: 1;
+}
+
+.sidebar.dark {
+  background-color: rgb(68, 68, 68);
+  color: white;
+}
+
+.sidebar.light {
+  background-color: rgb(204, 204, 204);
+  color: black;
+}
+
+.sidebar.closed {
+  visibility: hidden;
+  right: -200px;  
+}
+
+.settings-button {
+  padding: 20px;
+  -webkit-transition: 1s;
+  transition: 1s;
+  position: absolute;  
+  right: 0;  
+  top: 0;
+}
+
+.settings-label {
+  float: left; 
+}
+
+#content {
+  display: none;
+}
+
+.search-bar {
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
+}
+
+.search-bar.dark {
+  color: #ffffff;
+  background-color: #292929;
+  border-color: #555555;
+  border-left-color: #555555;
+}
+
+.search-bar.light {
+  color: #000000;
+  background-color: #cfcfcf;
+  border-color: #a7a7a7;
+  border-left-color: #a7a7a7;
+}
+
+.centerme {
+    text-align: center;
+}
+
+#smh {
+  color: #ff50d3;
+}
+
+#mh {
+  color: #f85d5d;;
+}
+
+#ph {
+  color: #00ff77;
+}
+
+#nh {
+  color: #00ddfa;
+}
+
+/* Code for Toggle: https://www.cssscript.com/material-style-toggle-switches-with-pure-css-css3/ */
+
+.lbl {
+  margin-left: 10px;
+  float: left;
+  position: relative;
+  display: block;
+  height: 20px;
+  width: 44px;
+  background: #898989;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lbl:after {
+  position: absolute;
+  left: -2px;
+  top: -3px;
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 100px;
+  background: #fff;
+  box-shadow: 0px 3px 3px rgba(0,0,0,0.05);
+  content: '';
+  transition: all 0.3s ease;
+}
+
+.lbl:active:after { transform: scale(1.15, 0.85); }
+
+.cbx:checked ~ .toggle-btn { background: #ff98dd; }
+
+.cbx:checked ~ .toggle-btn:after {
+  left: 20px;
+  background: #fa30d8;
+}
+
+.cbx:disabled ~ .toggle-btn {
+  background: #d5d5d5;
+  pointer-events: none;
+}
+
+.cbx:disabled ~ .toggle-btn:after { background: #bcbdbc; }
+
+.hidden { display: none; }
+
+.radio {
+	position: relative;
+	cursor: pointer;
+	line-height: 20px;
+  font-size: 14px;
+}
+
+.radio .label {
+	position: relative;
+	display: block;
+	float: left;
+	margin-right: 10px;
+	width: 20px;
+	height: 20px;
+	border: 2px solid #c8ccd4;
+	border-radius: 100%;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.radio .label:after {
+	content: '';
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 10px;
+	height: 10px;
+	border-radius: 100%;
+	background: #225cff;
+	transform: scale(0);
+	transition: all 0.2s ease;
+	opacity: 0.08;
+	pointer-events: none;
+}
+
+.radio:hover .label:after {
+	transform: scale(3.6);
+}
+
+input[type="radio"]:checked + .label {
+	border-color: #225cff;
+}
+
+input[type="radio"]:checked + .label:after {
+	transform: scale(1);
+	transition: all 0.2s cubic-bezier(0.35, 0.9, 0.4, 0.9);
+	opacity: 1;
+}
+
+.cntr {
+	position: absolute;
+	top: calc(50% - 10px);
+	left: 0;
+	width: 100%;
+	text-align: center;
+}
+
+.hidden {
+	display: none;
+}
+
+.credit {
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	transition: all 0.2s ease;
+	-webkit-user-select: none;
+	user-select: none;
+	opacity: 0.6;
+}
+
+.credit img {
+	width: 72px;
+}
+
+.credit:hover {
+	transform: scale(0.95);
+}
+
+#slash.hidden {
+  visibility: hidden;
+}
+
+#celsius.hidden {
+  visibility: hidden;
+}
+
+#fahrenheit.hidden {
+  visibility: hidden;
+}
+
+.primary {
+  color: white;
+}
+
+.secondary {
+  color: gray;
+}
+
+hr.dark {
+  background-color: white;
+}
+
+hr.light {
+  background-color: black;
+}
+
+.radioGroup {
+  margin-top: 7px; 
+  margin-bottom: 7px;
+}
+
+.toggle {
+  margin-top: 7px; 
+  margin-bottom: 7px;
+}
+
+.radio-label {
+  font-size: 16px;
+}
