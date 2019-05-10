@@ -8,6 +8,7 @@ const MAX_FETCH_RETRIES = 7
 let div = document.getElementById("weather")
 let weatherP = document.getElementById("weatherP")
 let dateTimeP = document.getElementById("dateTimeP")
+let sidebar = document.getElementById("sidebar")
 // creation of weather icon
 let weatherIcon = document.createElement("i")
 
@@ -191,3 +192,16 @@ async function getJson(url) {
 	}
 	return json
 }
+
+/* EVENT LISTENER FUNCTIONS */
+
+function toggleSidebar(event) {
+	event.stopPropagation()
+	sidebar.classList.toggle("closed")
+}
+
+function bodyClick(event) {
+	if (event.target.id != "sidebar" && !sidebar.classList.contains("closed")) sidebar.classList.toggle("closed")
+}
+
+document.body.onclick = bodyClick

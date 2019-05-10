@@ -6,6 +6,7 @@
   <meta charset="utf-8" />
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css'>
   <link rel="stylesheet" type="text/css" href="src/css/main.css" />
   <link rel="stylesheet" type="text/css" href="src/css/weather-icons.min.css" />
@@ -14,8 +15,20 @@
 
 <body>
   <div class="jumbotron jumbotron-fluid">
+    
     <h2 id="loading" class="centerme">Loading...</h2>
     <div id="content" class="container">
+
+      <a href="#" class="settings-button" id="sbtn1" onclick="toggleSidebar(event)"><h3><i class="fa fa-bars" aria-hidden="true"></i></h3></a>
+
+      <!--Code for sidebar on right of screen.-->
+
+      <div class="sidebar closed" id="sidebar">
+        <p>
+        <a href="#" class="settings-button" onclick="toggleSidebar(event)"><i class="fa fa-times" aria-hidden="true"></i></a>
+      </p>
+        <h3>Settings</h3>
+      </div>
       <div class="centerme">
         <h1>Hello There</h1>
         <br>
@@ -25,7 +38,7 @@
         </div>
         <form action="https://duckduckgo.com/" method="get" target="_blank">
           <div class="container input-group">
-            <input class="search-bar" name="q" placeholder="search the web" type="text">
+            <input autocomplete="off" class="search-bar" name="q" placeholder="search the web" type="text">
           </div>
         </form>
       </div>
@@ -45,14 +58,12 @@
             <div id="productivity-links"></div>
           </div>
           <div class="col-sm">
-            <h4 id="nh">News Category</h4>
+            <h4 id="nh">News</h4>
             <div id="news-links"></div>
           </div>
         </div>
       </div>
     </div>
-    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script> -->
     <script type="text/javascript" src="src/js/links.js"></script>
     <script type="text/javascript" src="src/js/main.js"></script>
   </div>

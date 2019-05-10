@@ -3,4 +3,9 @@ update site dynamically based on weather - HOW?
 	- temperature
 	- type of weather
 
-add sheev mode
+Add collapsable sidebar menu for user settings
+	- type of temperature
+	- background color
+	- theme?
+
+if not click on sidebar div, collapse menu

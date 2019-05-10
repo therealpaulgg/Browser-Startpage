@@ -4,6 +4,17 @@
   color: white;
 }
 
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 10px;
+}
+
+.item1 {
+  grid-row-start: 1;
+  grid-row-end: 4;
+}
+
 a {
   color: #BBBBBB;
 }
@@ -12,11 +23,47 @@ a:hover {
   color: #ff33cc;
 }
 
-html {
+.settings-button:hover {
+  -webkit-transition: 1s;
+  transition: 1s;
+}
+
+html, body {
   font-family: "Hack";
   background-color: #222222;
   /* background-image: url(../sheev.jpeg); */
   color: white;
+  height: 100%;
+}
+
+.sidebar {
+  visibility: visible;
+  background-color: rgb(68, 68, 68);
+  position: absolute;  
+  right: 0px;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  word-wrap: break-word;
+  padding: 10px;
+  color: white;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  z-index: 0;
+}
+
+.sidebar.closed {
+  visibility: hidden;
+  right: -200px;  
+}
+
+.settings-button {
+  padding: 20px;
+  -webkit-transition: 1s;
+  transition: 1s;
+  position: absolute;  
+  right: 0;  
+  top: 0;
 }
 
 #content {
