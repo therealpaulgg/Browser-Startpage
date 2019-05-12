@@ -87,7 +87,7 @@ function loadSettings() {
 	}
 
 	document.body.classList.add(theme)
-	if (document.getElementById(`${theme}Radio` != null)) {
+	if (document.getElementById(`${theme}Radio`) != null) {
 		document.getElementById(`${theme}Radio`).checked = true
 	}
 
