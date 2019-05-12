@@ -10,6 +10,34 @@ html, body {
   overflow: hidden;
 }
 
+body.dracula {
+  background-color: #20212B;
+  color: white;
+}
+body.dracula .jumbotron {
+  background-color: #20212B;
+  color: white;
+}
+body.dracula a {
+  color: #BBBBBB;
+}
+body.dracula a:hover {
+  color: #FF79C6;
+}
+body.dracula .sidebar {
+  background-color: #2A2C39;
+  color: white;
+}
+body.dracula .search-bar {
+  color: #ffffff;
+  background-color: #2A2C39;
+  border-color: #0A2C39;
+  border-left-color: #0A2C39;
+}
+body.dracula hr {
+  background-color: white;
+}
+
 body.dark {
   background-color: #222222;
   color: white;
