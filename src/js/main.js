@@ -55,19 +55,21 @@ async function main() {
 
 function loadSettings() {
 	if (degreeMode == null) {
-		console.log("degree undefined")
 		degreeMode = "celsius"
 		pickedDegreeRadio = "celsius"
 		localStorage.setItem("degreeMode", "celsius")
 	}
 
-	if (degreeMode == "fahrenheit") {
-		document.getElementById("fahrenheitRadio").checked = true
-		pickedDegreeRadio = "fahrenheit"
-	} else {
-		document.getElementById("celsiusRadio").checked = true
-		pickedDegreeRadio = "celsius"
-	}
+	document.getElementById(`${degreeMode}Radio`).checked = true
+	pickedDegreeRadio = degreeMode
+
+	// if (degreeMode == "fahrenheit") {
+	// 	document.getElementById("fahrenheitRadio").checked = true
+	// 	pickedDegreeRadio = "fahrenheit"
+	// } else {
+	// 	document.getElementById("celsiusRadio").checked = true
+	// 	pickedDegreeRadio = "celsius"
+	// }
 
 	if (typeof bothDegrees === "undefined") {
 		bothDegrees = "no"
@@ -79,22 +81,16 @@ function loadSettings() {
 	}
 
 	if (theme == null) {
-		console.log("theme not defined")
 		theme = "dark"
 		pickedThemeRadio = theme
 		localStorage.setItem("theme", theme)
 	}
 
-	console.log(theme)
-	if (theme == "dark") {
-		// dark theme is default
-		document.body.classList.add("dark")
-		document.getElementById("darkRadio").checked = true
-	} else if (theme == "light") {
-		// change stuff to light
-		document.body.classList.add("light")
-		document.getElementById("lightRadio").checked = true
+	document.body.classList.add(theme)
+	if (document.getElementById(`${theme}Radio` != null)) {
+		document.getElementById(`${theme}Radio`).checked = true
 	}
+
 }
 
 function log(val) {
@@ -361,19 +357,24 @@ function bothDegreesToggleFn(event) {
 function toggleTheme(event) {
 	event.stopPropagation()
 
-	if (document.getElementById("lightRadio").checked) {
-		if (pickedThemeRadio == "light") return
-		theme = "light"
-		pickedThemeRadio = "light"
-		document.body.classList.remove("dark")
-		document.body.classList.add("light")
-	} else {
-		if (pickedThemeRadio == "dark") return
+	let radioBtn = event.target.id
+	let newTheme = radioBtn.split("Radio")[0]
+
+	if (document.getElementById(radioBtn) == null) {
+		// set dark theme if something is broken
 		theme = "dark"
 		pickedThemeRadio = "dark"
-		document.body.classList.remove("light")
+		document.body.classList.remove(oldTheme)
 		document.body.classList.add("dark")
+	} else if (document.getElementById(radioBtn).checked) {
+		if (pickedThemeRadio == newTheme) return
+		let oldTheme = theme
+		theme = newTheme
+		pickedThemeRadio = newTheme
+		document.body.classList.remove(oldTheme)
+		document.body.classList.add(theme)
 	}
+
 	localStorage.setItem("theme", theme)
 }
 

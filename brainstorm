@@ -1,11 +1,5 @@
-update site dynamically based on time of day
-update site dynamically based on weather - HOW?
-	- temperature
-	- type of weather
+Dynamic theme doesn't look good.
 
-Add collapsable sidebar menu for user settings
-	- type of temperature
-	- background color
-	- theme?
+Anything else to add?
 
-if not click on sidebar div, collapse menu
+Add ability to have maps - look into this! useful for finding restaurants and things
