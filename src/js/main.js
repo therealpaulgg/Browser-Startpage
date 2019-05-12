@@ -55,7 +55,6 @@ async function main() {
 
 function loadSettings() {
 	if (degreeMode == null) {
-		console.log("degree undefined")
 		degreeMode = "celsius"
 		pickedDegreeRadio = "celsius"
 		localStorage.setItem("degreeMode", "celsius")
@@ -82,13 +81,10 @@ function loadSettings() {
 	}
 
 	if (theme == null) {
-		console.log("theme not defined")
 		theme = "dark"
 		pickedThemeRadio = theme
 		localStorage.setItem("theme", theme)
 	}
-
-	console.log(theme)
 
 	document.body.classList.add(theme)
 	if (document.getElementById(`${theme}Radio` != null)) {
@@ -360,14 +356,9 @@ function bothDegreesToggleFn(event) {
 
 function toggleTheme(event) {
 	event.stopPropagation()
-	console.log(event.target.id)
 
 	let radioBtn = event.target.id
 	let newTheme = radioBtn.split("Radio")[0]
-
-	console.log("New theme: " + newTheme)
-	console.log("Current theme: " + theme)
-	console.log("Previously picked button: " + pickedThemeRadio)
 
 	if (document.getElementById(radioBtn) == null) {
 		// set dark theme if something is broken
