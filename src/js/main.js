@@ -400,4 +400,3 @@ function isDescendant(parent, child) {
 } 
 
 document.body.onclick = bodyClick
-document.body.closest
